@@ -1,5 +1,6 @@
 # Description 
 Extension of interFoam, interIsoFoam and geometricVoF to include porous media
+This repo contains the files uploaded in the OFJ resubmission for the porosity paper.
 -------------------------------------------------------------------
 
 Momentum equation formulation based on:
