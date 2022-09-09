@@ -1,0 +1,69 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  v2012                                 |
+|   \\  /    A nd           | Website:  www.openfoam.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "system";
+    object      setFieldsDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+defaultFieldValues
+(
+    volScalarFieldValue alpha.water 0
+    volScalarFieldValue porosity 1
+    volScalarFieldValue alpha 0
+    volScalarFieldValue beta 0
+    volScalarFieldValue gamma_p 0
+    volScalarFieldValue d50 1
+    volScalarFieldValue KC 1
+);
+
+regions
+(
+    boxToCell   //Column of water on the left
+    {
+        box (0 0 -1) (0.281 0.24 1);
+        
+        fieldValues
+        (
+            volScalarFieldValue alpha.water 1
+        );
+    }
+   boxToCell    
+    {
+        box (0.281 0 -1) (0.892 0.022 1);
+        
+        fieldValues
+        (
+            volScalarFieldValue alpha.water 1
+        );
+    }
+   boxToCell
+    {
+        box (0.30 0 -1) (0.59 0.3 1);
+        
+        fieldValues
+        (
+            volScalarFieldValue porosity 0.49
+            volScalarFieldValue alpha 500
+            volScalarFieldValue beta 2
+            volScalarFieldValue gamma_p 0.34
+            volScalarFieldValue d50 0.0159
+            volScalarFieldValue KC 128
+        );
+    }
+
+
+
+);
+
+
+// ************************************************************************* //

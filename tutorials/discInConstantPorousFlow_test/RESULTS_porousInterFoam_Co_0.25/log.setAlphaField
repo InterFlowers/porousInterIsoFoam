@@ -1,0 +1,34 @@
+/*---------------------------------------------------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  v2012                                 |
+|   \\  /    A nd           | Website:  www.openfoam.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+Build  : _7bdb509494-20201222 OPENFOAM=2012
+Arch   : "LSB;label=32;scalar=64"
+Exec   : setAlphaField
+Date   : Sep 08 2022
+Time   : 16:08:47
+Host   : nb-dk1082448
+PID    : 4391
+I/O    : uncollated
+Case   : /home/missios/OpenFOAM/missios-v2006/src/isoAdvectorDevelopment/porosityDevelopment/OFJ_resubmission/porosity/tutorials/discInConstantPorousFlow_test/RESULTS_porousInterFoam_Co_0.25
+nProcs : 1
+trapFpe: Floating point exception trapping enabled (FOAM_SIGFPE).
+fileModificationChecking : Monitoring run-time modified files using timeStampMaster (fileModificationSkew 5, maxFileModificationPolls 20)
+allowSystemOperations : Allowing user-supplied system call operations
+
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+Create time
+
+Create mesh for time = 0
+
+Reading setAlphaFieldDict
+Reading field alpha.water
+
+Writing new alpha field alpha.water
+sum(alpha*V):0.01945336540166876099222648, 1-max(alpha1): 0 min(alpha1): 0
+
+End
+

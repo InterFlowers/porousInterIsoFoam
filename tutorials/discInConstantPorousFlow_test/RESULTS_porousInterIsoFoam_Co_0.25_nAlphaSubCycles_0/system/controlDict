@@ -1,0 +1,106 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  v2006                                 |
+|   \\  /    A nd           | Website:  www.openfoam.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version         2.0;
+    format          ascii;
+    class           dictionary;
+    location        "system";
+    object          controlDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+application     porousInterIsoFoam;
+
+startFrom       latestTime;
+
+startTime       0;
+
+stopAt          endTime;
+
+endTime         2.5;
+
+deltaT          0.1;
+
+writeControl    adjustableRunTime;
+
+writeInterval   0.1;
+
+purgeWrite      0;
+
+writeFormat     ascii;
+
+writePrecision  25;
+
+writeCompression off;
+
+timeFormat      general;
+
+timePrecision   6;
+
+graphFormat     raw;
+
+runTimeModifiable no;
+
+adjustTimeStep  yes;
+
+maxCo     0.25;
+
+maxAlphaCo     0.25;
+
+functions
+{
+   freeSurfaceFunc
+   {  
+       type            surfaces;
+       functionObjectLibs
+       (  
+           "libsampling.so"
+       );
+       outputControl   outputTime;
+       outputInterval  1;
+       surfaceFormat  raw;
+       fields
+       (  
+           alpha1
+       );
+       surfaces
+       (  
+           alpha_050
+           {  
+               type        isoSurface;
+               isoField    alpha.water;
+               isoValue    0.5;
+               interpolate false;
+               regularise  false;
+           }         
+           alpha_001
+           {  
+               type        isoSurface;
+               isoField    alpha.water;
+               isoValue    0.01;
+               interpolate false;
+               regularise  false;
+           }  
+        
+  
+            alpha_099
+           {  
+               type        isoSurface;
+               isoField    alpha.water;
+               isoValue    0.99;
+               interpolate false;
+               regularise  false;
+           }  
+ 
+       );
+      
+   interpolationScheme cell;
+   }
+}
+// ************************************************************************* //

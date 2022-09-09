@@ -1,0 +1,115 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  v1906                                 |
+|   \\  /    A nd           | Web:      www.OpenFOAM.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+
+postPro1
+{
+    #includeEtc "caseDicts/postProcessing/visualization/runTimePostPro.cfg"
+
+    // Time control etc
+    ${_visualization};
+
+    // debug       true;
+    // parallel    true;
+
+    output
+    {
+        name        image;
+        width       1200;
+        height      2400;
+    }
+
+    camera
+    {
+        // If camera is moving, optionally provide start and end times
+        // startPosition    0.2;
+        // endPosition      0.75;
+
+        // Total number of frames to generate
+        nFrameTotal   1;
+
+        // Parallel projection flag
+        parallelProjection  false;
+
+        // Camera parameters as in "Adjust Camera" panel in paraview
+        position     (-9 -74 103);
+        focalPoint   (8 60 2);
+        up           (-0.26 0.6 0.75);
+        viewAngle    30;
+        zoom    1.0;
+
+        // clipBox is optional
+        //clipBox (0 0 0)(5 40 1);
+    }
+
+    // Default colours
+    colours
+    {
+        background  (1 1 1);
+        text        (0 0 0);
+        edge        (1 0 0);
+        surface     (0.5 0.5 0.5);
+        line        (1 0 0);
+        point       (0.5 0.5 0.5);
+    }
+
+    surfaces
+    {
+        outlines
+        {
+            visible         true;
+            type            patches;
+            patches         ( xMin xMax yMax zMin zMax );
+            representation  surface;
+            renderMode      phong;
+            colourBy        colour;
+            field           alpha.phase1;
+            range           (0 1);
+        }
+
+        // VTK iso surface of volume fraction
+        isoAlpha
+        {
+            visible         true;
+            type            isoSurface;
+            field           alpha.phase1;
+            values          (0.5);
+            smooth          true;
+            colourMap       rainbow;
+            representation  surface;
+            renderMode      phong;
+            featureEdges    false;
+            colourBy        field;
+            colourField     alpha.phase1;
+            range           (0 1);
+        }
+
+        // VTK iso surface of Lambda2
+        isoLambda2
+        {
+            visible         true;
+            type            isoSurface;
+            field           Lambda2;
+            values          (0.0002);
+            smooth          true;
+            colourMap       rainbow;
+            representation  surface;
+            renderMode      phong;
+            featureEdges    false;
+            colourBy        field;
+            colourField     p;
+            range           (-27 -2);
+        }
+    }
+
+    text
+    {
+    }
+}
+
+
+// ************************************************************************* //

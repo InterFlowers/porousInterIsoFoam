@@ -1,0 +1,80 @@
+#!/bin/sh
+
+# Clean-up current working directory
+#Allclean
+
+# Prepare all running directories for parameter analysis study
+#Solvers
+for meshResolution in mesh3 #mesh0 mesh1 mesh2 mesh3
+do
+  if [ $meshResolution = "mesh0" ]
+  then
+    sed -i "s/^nx.*$/nx  25;/"    system/blockMeshDict
+  elif [ $meshResolution = "mesh1" ]
+  then
+    sed -i "s/^nx.*$/nx  50;/"    system/blockMeshDict
+  elif [ $meshResolution = "mesh2" ]
+  then 
+    sed -i "s/^nx.*$/nx  100;/"    system/blockMeshDict
+  else
+    sed -i "s/^nx.*$/nx  150;/"    system/blockMeshDict
+  fi  
+  #Solvers
+  for application in  porousInterFoam porousInterIsoFoam
+  do
+  #Interfacial courant number
+    for courantNo in 0.3
+    do 
+    #Special treatment for porousInterIsoFoam since it has the extra argument of nAlphaSubCycles
+      if [ "$application" = "porousInterIsoFoam" ]; then
+        for nAlphaSubCycles in 0
+        do
+          for reconstructionScheme in isoAlpha plicRDF
+          do
+            RESULTS="RESULTS_${application}_${meshResolution}_Co_${courantNo}_${reconstructionScheme}_nAlphaSubCycles_${nAlphaSubCycles}/"
+            if [ ! -d $RESULTS ]; then
+              mkdir -p $RESULTS
+              cp -ra 0.orig system constant Allrun Allclean foamLog.db  $RESULTS
+              # Replace by values for this case
+              sed -i "s/application.*$/application     ${application};/"    $RESULTS/system/controlDict
+              sed -i "s/maxCo.*$/maxCo     1e6;/"    $RESULTS/system/controlDict
+              sed -i "s/maxAlphaCo.*$/maxAlphaCo     ${courantNo};/"    $RESULTS/system/controlDict
+              sed -i "s/reconstructionScheme.*$/reconstructionScheme     ${reconstructionScheme};/"    $RESULTS/system/fvSolution
+              sed -i "s/nAlphaSubCycles.*$/nAlphaSubCycles     ${nAlphaSubCycles};/"    $RESULTS/system/fvSolution
+            else
+              echo "Directory $RESULTS already exist !! Not overwritten !!"
+            fi
+            cd $RESULTS
+            ./Allrun
+            foamLog log.porousInterIsoFoam
+            cd ..
+          done
+        done
+      else
+      # Create the directory results based on application and max courantNo
+      RESULTS="RESULTS_${application}_${meshResolution}_Co_${courantNo}/"
+      if [ ! -d $RESULTS ]; then
+        mkdir -p $RESULTS
+        cp -ra 0.orig system constant Allrun Allclean foamLog.db  $RESULTS
+        # Replace by values for this case
+        sed -i "s/^application.*$/application     ${application};/"    $RESULTS/system/controlDict
+        sed -i "s/maxCo.*$/maxCo     1e6;/"    $RESULTS/system/controlDict
+        sed -i "s/maxAlphaCo.*$/maxAlphaCo     ${courantNo};/"    $RESULTS/system/controlDict
+      else
+        echo "Directory $RESULTS already exist !! Not overwritten !!"
+      fi
+      cd $RESULTS
+      ./Allrun
+      foamLog log.porousInterFoam
+      cd ..
+      fi
+    done
+  done
+done
+# Generate plots
+cd figures
+python3 surface_elevation_comparison.py 
+
+cd advectionSchemeComparison
+python3 general_comparison_postPro_OFJ.py 
+

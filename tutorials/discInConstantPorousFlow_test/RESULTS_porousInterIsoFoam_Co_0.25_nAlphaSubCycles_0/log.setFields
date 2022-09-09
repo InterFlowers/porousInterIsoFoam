@@ -1,0 +1,47 @@
+/*---------------------------------------------------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  v2012                                 |
+|   \\  /    A nd           | Website:  www.openfoam.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+Build  : _7bdb509494-20201222 OPENFOAM=2012
+Arch   : "LSB;label=32;scalar=64"
+Exec   : setFields
+Date   : Sep 08 2022
+Time   : 16:07:58
+Host   : nb-dk1082448
+PID    : 4088
+I/O    : uncollated
+Case   : /home/missios/OpenFOAM/missios-v2006/src/isoAdvectorDevelopment/porosityDevelopment/OFJ_resubmission/porosity/tutorials/discInConstantPorousFlow_test/RESULTS_porousInterIsoFoam_Co_0.25_nAlphaSubCycles_0
+nProcs : 1
+trapFpe: Floating point exception trapping enabled (FOAM_SIGFPE).
+fileModificationChecking : Monitoring run-time modified files using timeStampMaster (fileModificationSkew 5, maxFileModificationPolls 20)
+allowSystemOperations : Allowing user-supplied system call operations
+
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+Create time
+
+Create mesh for time = 0
+
+Reading setFieldsDict
+
+Setting field default values
+    Setting internal values of volScalarField porosity
+    Setting internal values of volScalarField alpha
+    Setting internal values of volScalarField beta
+    Setting internal values of volScalarField gamma_p
+    Setting internal values of volScalarField d50
+    Setting internal values of volScalarField KC
+
+Setting field region values
+    Adding cells with centre within boxes 1((1 -0.05000000000000000277555756 0) (4 0.05000000000000000277555756 3))
+    Setting internal values of volScalarField porosity
+    Setting internal values of volScalarField alpha
+    Setting internal values of volScalarField beta
+    Setting internal values of volScalarField gamma_p
+    Setting internal values of volScalarField d50
+    Setting internal values of volScalarField KC
+
+End
+

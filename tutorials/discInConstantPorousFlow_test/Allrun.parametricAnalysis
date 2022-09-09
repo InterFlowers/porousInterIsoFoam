@@ -1,0 +1,57 @@
+#!/bin/sh
+
+# Clean-up current working directory
+#Allclean
+
+# Prepare all running directories for parameter analysis study
+#Solvers
+# for application in porousInterFoam
+for application in  porousInterIsoFoam porousInterFoam
+do
+  for courantNo in 0.25
+  do 
+    if [ "$application" = "porousInterIsoFoam" ]; then
+      for nAlphaSubCycles in 0 #2
+      do
+        RESULTS="RESULTS_${application}_Co_${courantNo}_nAlphaSubCycles_${nAlphaSubCycles}/"
+        if [ ! -d $RESULTS ]; then
+          mkdir -p $RESULTS
+          cp -ra 0.orig system constant Allrun Allclean foamLog.db  $RESULTS
+          # Replace values for this case
+          sed -i "s/application.*$/application     ${application};/"    $RESULTS/system/controlDict
+          sed -i "s/maxCo.*$/maxCo     ${courantNo};/"    $RESULTS/system/controlDict
+          sed -i "s/maxAlphaCo.*$/maxAlphaCo     ${courantNo};/"    $RESULTS/system/controlDict
+          sed -i "s/nAlphaSubCycles.*$/nAlphaSubCycles     ${nAlphaSubCycles};/"    $RESULTS/system/fvSolution
+        else
+          echo "Directory $RESULTS already exist !! Not overwritten !!"
+        fi
+        cd $RESULTS
+        ./Allrun
+        cd ..
+      done
+    else
+    # Create the directory results based on application and max courantNo
+    RESULTS="RESULTS_${application}_Co_${courantNo}/"
+    if [ ! -d $RESULTS ]; then
+      mkdir -p $RESULTS
+      cp -ra 0.orig system constant Allrun Allclean foamLog.db  $RESULTS
+      # Replace values for this case
+      sed -i "s/^application.*$/application     ${application};/"    $RESULTS/system/controlDict
+      sed -i "s/maxCo.*$/maxCo     1e6;/"    $RESULTS/system/controlDict
+      sed -i "s/maxAlphaCo.*$/maxAlphaCo     ${courantNo};/"    $RESULTS/system/controlDict
+    else
+      echo "Directory $RESULTS already exist !! Not overwritten !!"
+    fi
+    cd $RESULTS
+    ./Allrun
+    cd ..
+    fi
+  done   
+done
+
+## Plots
+# Generate advection scheme comparative plots (The ones included in OFJ). 
+# Requires python3 installation
+cd figures/advectionSchemeComparison
+python3 general_comparison_postPro_OFJ.py
+

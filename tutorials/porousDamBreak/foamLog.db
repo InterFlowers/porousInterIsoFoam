@@ -1,0 +1,52 @@
+#------------------------------------------------------------------------------
+# Query database for Foam Log extraction.
+# Each line stands for one query:
+#
+#    name '/' line selector '/' column selector
+#
+# e.g.
+#    kMin/bounding k,/min:
+#
+# The extraction will select a line using 'bounding k,' and in the line
+# takes the word following 'min:' as the value.
+#
+# A special entry is the 'Separator' entry which delimits one iteration
+# from the other.
+#
+#------------------------------------------------------------------------------
+
+#- String to recognize new iteration by (usually same as 'Time')
+Separator/^[ \t]*Time = /Time =
+
+#- Time value:
+Time/^[ \t]*Time = /Time =
+
+#- Continuity errors:
+contLocal/time step continuity errors :/sum local =
+contGlobal/time step continuity errors :/ global =
+contCumulative/time step continuity errors :/cumulative =
+
+#- Special for combustion code:
+
+#- Execution time:
+executionTime/ExecutionTime = /ExecutionTime =
+
+#- Courant no:
+CourantMax/ Courant Number /max:
+CourantMean/ Courant Number /mean:
+
+#- Interface Courant no:
+IntCourantMax/Interface Courant Number /max:
+IntCourantMean/Interface Courant Number /mean:
+
+#-Phase-1 volume fraction 
+volumeFraction/Phase-1 volume fraction/Phase-1 volume fraction = 
+
+#- alpha bounding
+alphaMin/Min\(alpha.water\) =/Min(alpha.water) =
+alphaMax/Max\(alpha.water\) =/Max(alpha.water) = 
+
+
+
+
+
