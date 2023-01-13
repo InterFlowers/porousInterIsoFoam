@@ -36,7 +36,7 @@
         // Adding Darcy-Forchheimer term as implicit source term
         UEqn += fvm::Sp(rho*(a + b*mag(U)), U);
         // Expplicit variant also works:
-//        UEqn += rho*(a + b*mag(U))*U;
+        //UEqn += rho*(a + b*mag(U))*U;
         UEqn += Cm/porosity*fvm::ddt(rho, U);
         UEqn += Cm/porosity*MRF.DDt(rho, U);
     }

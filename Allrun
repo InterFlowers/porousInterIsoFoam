@@ -1,0 +1,25 @@
+#!/bin/sh
+#This bash file runs the two simulations and places all the relevant figures inside figures folder
+#Run
+
+cd tutorials/porousInterIsoFoam/discInConstantPorousFlow
+echo "Simulating discInConstantPorousFlow"
+./Allrun
+
+cd ../porousDamBreak
+echo "Simulating porousDamBreak"
+./Allrun
+
+#Generate plots
+cd ../figures
+echo "Generating plots"
+#Disc
+python3 plotVolumeFractionErrorDisc.py
+python3 plotLowerBoundingErrorDisc.py
+python3 plotUpperBoundingErrorDisc.py
+
+#Dam Break
+python3 plotVolumeFractionErrorDamBreak.py
+python3 plotLowerBoundingErrorDamBreak.py
+python3 plotUpperBoundingErrorDamBreak.py
+python3 surface_compare.py
