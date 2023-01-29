@@ -1,1 +1,0 @@
-../reconstructedDistanceFunction/reconstructedDistanceFunction.C

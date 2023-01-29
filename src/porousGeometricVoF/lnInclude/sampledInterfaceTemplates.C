@@ -1,1 +1,0 @@
-../sampledInterface/sampledInterfaceTemplates.C
