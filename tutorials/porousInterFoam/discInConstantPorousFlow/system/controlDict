@@ -15,7 +15,7 @@ FoamFile
 }
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
-application     porousInterIsoFoam;
+application     porousInterFoam;
 
 startFrom       latestTime;
 
