@@ -16,7 +16,6 @@
     // This could be put into an fvOption
     {
         // Generating Darcy-Forchheimer coefficient: F = rho*U*(a + b*|U|)
-        // Shoud it be mu or muEff in the equation below?
         volScalarField a
         (
             alpha*sqr(1.0 - porosity)/pow3(porosity)*mixture.mu()/rho/sqr(d50)
